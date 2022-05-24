@@ -1,0 +1,15 @@
+.pantalla_grafo {
+    padding: 20px;
+}
+
+.pantalla {
+    height: 400px;
+    margin: 0;
+    background-color: #1C1B1F;
+    border-radius: 6px;
+}
+
+.controles {
+    display: flex;
+    justify-content: space-evenly;
+}
