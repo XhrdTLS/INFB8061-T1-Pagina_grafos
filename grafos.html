@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/estilos_grafos.css">
 </head>
 
-<body class="grafos">
+<body>
     <div class="inicio">
         <nav class="nav__inicio">
             <div class="container nav__container">
@@ -23,19 +23,25 @@
                     <a href="equipo.html" class="link">Equipo</a>
                 </div>
             </div>
-            <section class="pantallas_grafo">
-                <div class="pantalla">
-                    pantalla1
-                </div>
-                <div class="pantalla">
-                    pantalla2
-                </div>
-                <div class="controles">
-                    <p class="link">test</p>
-                    <p class="link">new</p>
-                </div>
-            </section>
         </nav>
+        <section class="control_principal">
+            <div class="controles">
+                <p class="botones_control" id="nuevo-vertice">Mouse selector</p>
+                <p class="botones_control" id="nuevo-vertice">Agregar Vértice</p>
+                <p class="botones_control" id="nueva-arista">Agregar Arista</p>
+                <p class="botones_control" id="eliminar-grafos">Eliminar Grafo</p>
+                <p class="botones_control" id="deshacer-cambios">Deshacer cambios</p>
+            </div>
+        </section>
+        <section class="pantallas_grafo">
+            <div class="pantalla">
+                <canvas class="lienzo" id="canvas-1"></canvas>
+            </div>
+            <div class="pantalla">
+                <canvas class="lienzo" id="canvas-2"></canvas>
+            </div>
+        </section>
+
     </div>
 </body>
 
