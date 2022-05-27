@@ -1,4 +1,5 @@
 /* SELECTOR DE BOTONES, MENU PRINCIPAL */
+
 var header = document.querySelector(".controles");
 var btns = header.getElementsByClassName("botones_control");
 for (var i = 0; i < btns.length; i++) {
@@ -8,19 +9,26 @@ for (var i = 0; i < btns.length; i++) {
         this.className += " active";
     });
 }
+var lienzo_1 = d3.select("#canvas_1");
+
+btns[1].addEventListener("click", function () {
+    alert("La pantalla 2 aún no está disponible :C");
+    lienzo_1 = d3.select("#canvas_2");
+});
+
 /* BOTON ELIMINA GRAFOS */
 var btn_elimina = document.querySelector("#eliminar_grafos");
 btn_elimina.addEventListener("click", limpiar_todo);
 
 /* VARIABLES GENERALES */
-var colores =  [ "#0091EA", "#AA00FF", "#00BFA5", "#FFAB00", "#C51162", "#00C853", "#D50000", "#AEEA00", "#FFD600", "#6200EA", "#DD2C00" ];
+var colores = ["#0078D7", "#2196F3", "#3F51B5", "#FFAB00", "#8E24AA", "#26A69A", "#0277BD", "#64B5F6", "#9575CD", "#01579B", "#01579B"];
 var mcaminos = [], matrizRes = [], c = [];
 var columm = null;
 var mousedownNode = null;
 var tool = null, seleccion = null;
 const uuid = Math.floor(Math.random() * 1e9);
-var yoffset = 42;
-var w = window.innerWidth, h = window.innerHeight - yoffset, radio = 12;
+var yoffset = 4;
+var w = 500, h = 400 - yoffset, radio = 12;
 
 var matriz_aux = [], matriz_sec = [], matriz_terc = [], mat_identidad = [], mat_anterior = [];
 
@@ -32,10 +40,8 @@ var source = [], target = [];
 var ultimoNodo = nodos.length;
 
 /* DEFINICION DEL CANVAS */
-var lienzo_1 = d3.select('#canvas-1');
-var lienzo_2 = d3.select('#canvas-2');
-
 lienzo_1.attr("width", w).attr("height", h);
+console.log(w, h)
 lienzo_1.on("contextmenu", function () {
     d3.event.preventDefault();
 });
@@ -135,11 +141,11 @@ function mostrarNum() {
 var numLabel = document.querySelector('input[name="numeros"]');
 numLabel.addEventListener("click", mostrarNum);
 function mostrarNum() {
-  if (numLabel.checked == true) {
-    d3.selectAll(".texto").style("display", "inline");
-  } else {
-    d3.selectAll(".texto").style("display", "none");
-  }
+    if (numLabel.checked == true) {
+        d3.selectAll(".texto").style("display", "inline");
+    } else {
+        d3.selectAll(".texto").style("display", "none");
+    }
 }
 
 /* BOTON PROPIEDADES */
@@ -148,8 +154,8 @@ var labelre = document.querySelector(".region");
 var barraderecha = document.querySelector(".derecha");
 var nAristas = document.querySelector(".naristas");
 var nVertices = document.querySelector(".nvertices");
-var vinculosReales = new Array ( );
-var vinculoIndex = [];
+var enlacesReales = new Array();
+var enlacesIndex = [];
 
 /* AGREGAR/ELIMINAR NODO */
 function agrega_nodo() {
@@ -249,7 +255,7 @@ function aristasVertices() {
     for (let index = 0; index < enlaces.length; index++) {
         for (let jndex = 0; jndex < enlaces.length; jndex++) {
             if (index == jndex) {
-                enlacessReales[index] = new Array(enlaces[index].source.id, enlaces[jndex].target.id);
+                enlacesReales[index] = new Array(enlaces[index].source.id, enlaces[jndex].target.id);
             }
         }
     }
@@ -257,7 +263,7 @@ function aristasVertices() {
     for (let index = 0; index < enlacesReales.length; index++) {
         for (let jndex = 0; jndex < enlacesReales.length; jndex++) {
             if (jndex == 0) {
-                enlaceIndex[index] = enlacesReales[index][jndex];
+                enlacesIndex[index] = enlacesReales[index][jndex];
             }
         }
     }
@@ -270,6 +276,148 @@ function regiones() {
     if (region < 1) region = 1;
     document.querySelector(".region").innerHTML = region;
 }
+/* MATRIZ */
+document.querySelector(".matrizhide").addEventListener("click", e => {
+    var tablamatriz = document.querySelector(".matriz-ady")
+    var tablamatrizC = document.querySelector(".matriz-c")
+    var labelAdy = document.querySelector(".label-ady")
+    var labelC = document.querySelector(".label-c")
+    if (tablamatriz.style.display == "block") {
+      tablamatriz.style.display = "none";
+      tablamatrizC.style.display = "none";
+      labelAdy.style.display = "none";
+      labelC.style.display = "none";
+    } else {
+      tablamatriz.style.display = "block";
+      tablamatrizC.style.display = "block";
+      labelAdy.style.display = "block";
+      labelC.style.display = "block";
+    }
+  });
+function tabla(matriz) {
+    var tabla = "<table border=\"0\">";
+
+    tabla += "<tr><td></td>";
+    for (let jndex = 0; jndex < nodos.length; jndex++) {
+        tabla += "<td>" + (jndex + 1) + "</td>";
+    }
+    tabla += "</tr>";
+
+    for (let index = 0; index < nodos.length; index++) {
+        tabla += "<tr>";
+        tabla += "<td>" + (index + 1) + "</td>";
+        for (let jndex = 0; jndex < nodos.length; jndex++) {
+            tabla += "<td>" + matriz[index][jndex] + "</td>";
+        }
+        tabla += "</tr>";
+    }
+    tabla += "</table>";
+
+    return tabla;
+}
+function propiedades() {
+    for (let index = 0; index < enlaces.length; index++) {
+        columm = enlaces[index];
+        source.push(columm.source.index);
+        target.push(columm.target.index);
+        matriz_aux.push([index]);
+    }
+    matriz_sec.push(source);
+    matriz_sec.push(target);
+
+    for (let index = 0; index < nodos.length; index++) {
+        matriz_aux[index] = source[index] + "," + target[index];
+    }
+    // Llena una matriz con 0's
+    for (let index = 0; index < nodos.length; index++) {
+        matriz_terc[index] = Array(nodos.length).fill(0);
+        mat_identidad[index] = Array(nodos.length).fill(0);
+        matrizRes[index] = Array(nodos.length).fill(0);
+    }
+    //Matriz Indentidad
+    for (let index = 0; index < nodos.length; index++) {
+        for (let jndex = 0; jndex < nodos.length; jndex++) {
+            if (index == jndex) {
+                mat_identidad[index][jndex] = 1;
+            }
+        }
+    }
+    //Matriz funcionando
+    for (let jndex = 0; jndex <= nodos.length - 1; jndex++) {
+        for (let kndex = 0; kndex <= source.length - 1; kndex++) {
+            for (let lndex = 0; lndex <= matriz_sec.length - 1; lndex++) {
+                var m = matriz_sec[lndex][kndex];
+                if (lndex == 0) {
+                    mm = m;
+                }
+            }
+            matriz_terc[mm][m] = 1;
+        }
+        break;
+    }
+    var matrizAdy = tabla(matriz_terc);
+    document.querySelector(".matriz-ady").innerHTML = matrizAdy;
+    mat_anterior = matriz_terc;
+    matrizCaminos(matriz_terc);
+    aristasVertices();
+    regiones();
+    if (enlaces.length == 0) {
+        return
+    }
+    tipoGrafo();
+    nCromatico();
+    regular();
+    euleriano();
+    hamilton();
+    conexo();
+    grafoPlano();
+    completo();
+}
+
+function sumMatrices(matriz1, matriz2) {
+    var sum = 0;
+    for (let index = 0; index < matriz1.length; index++) {
+        for (let jndex = 0; jndex < matriz1.length; jndex++) {
+            sum = matriz1[index][jndex] + matriz2[index][jndex];
+            matrizRes[index][jndex] = sum;
+        }
+    }
+    return matrizRes;
+}
+
+function matrizCaminos(mcaminos) {
+    var sum = 0;
+    var matrixAux = [], mSum = [];
+    var n = nodos.length - 1;
+
+    for (let index = 0; index < mcaminos.length; index++) {
+        matrixAux[index] = [];
+        for (let jndex = 0; jndex < mcaminos[0].length; jndex++) {
+            for (let kndex = 0; kndex < mcaminos[0].length; kndex++) {
+                sum += mcaminos[index][kndex] * matriz_terc[kndex][jndex];
+            }
+            matrixAux[index][jndex] = sum;
+            sum = 0;
+        }
+    }
+    mcaminos = matrixAux;
+    caminocta++;
+    if (caminocta == n) {
+        c = sumMatrices(mat_identidad, mat_anterior)
+        var matrizC = tabla(c);
+        document.querySelector(".matriz-c").innerHTML = matrizC;
+        mcaminos = [];
+        return caminocta = 0;
+    }
+    else {
+        mSum = sumMatrices(mcaminos, mat_anterior)
+        mat_anterior = mSum;
+        return matrizCaminos(mcaminos);
+    }
+}
+
+var tipo = document.querySelector(".tipo");
+var conx = document.querySelector(".conexo");
 /* TIPOS DE GRAFOS */
 function tipoGrafo() {
     if (enlaces.length == nEnlaces(enlacesReales)) {
@@ -394,30 +542,6 @@ function limpiar_todo() {
     d3.selectAll("text").remove();
     matriz_terc = [];
     matriz_sec = [];
-    restart();
-}
-/* INGRESO MANUAL DE DATOS */
-function ingresoDatos() {
-    var stringcito;
-    stringcito = inputGrafos.value;
-
-    regexRule = /([\d],[\d])+/g;
-    var arrayNodos = [...stringcito.match(regexRule)]
-
-    contador = 0;
-    while (contador < arrayNodos.length + 1) {
-        var newNode = { id: contador, grado: 0, color: contador % 10 };
-        nodos.push(newNode);
-        contador++;
-    }
-    for (let iindex = 0; iindex < arrayNodos.length; iindex++) {
-        var newLink = { source: parseInt(arrayNodos[iindex][0], 10), target: parseInt(arrayNodos[iindex][2], 10) };
-        enlaces.push(newLink);
-    }
-    enlaces.filter(function (d) {
-        nodos[d.source].grado++;
-    });
-
     restart();
 }
 
