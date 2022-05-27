@@ -27,27 +27,84 @@
         </nav>
         <section class="control_principal">
             <div class="controles">
-                <p class="botones_control" id="nuevo-vertice">Mouse selector</p>
-                <p class="botones_control" id="nuevo-vertice">Agregar Vértice</p>
-                <p class="botones_control" id="nueva-arista">Agregar Arista</p>
-                <p class="botones_control" id="eliminar-grafos">Eliminar Grafo</p>
-                <p class="botones_control" id="deshacer-cambios">Deshacer cambios</p>
+                <p class="botones_control active" id="none">Selector Mouse</p>
+                <p class="botones_control" id="dib_p1">Selector Pantalla 1</p>
+                <p class="botones_control" id="dib_p2">Selector en Pantalla 2</p>
             </div>
+            <p class="linea">.</p>
+            <p class="botones_control" id="eliminar_grafos">Eliminar Todo</p>
+            <section class="casillas">
+                <p>Selecciona: </p>
+                <div class="check"><input type="checkbox" name="numeros" checked="true">Numeros</div>
+                <div class="check"><input type="checkbox" name="flechas" checked="true">Flechas</div>
+            </section>
         </section>
-        <section class="pantallas_grafo">
-            <div class="pantalla">
-                <canvas class="lienzo" id="canvas-1"></canvas>
+        <section class="principal">
+            <div class="pantallas_grafo">
+                <div class="pantalla">
+                    <svg class="lienzo" id="canvas-1"></svg>
+                </div>
             </div>
-            <div class="pantalla">
-                <canvas class="lienzo" id="canvas-2"></canvas>
+            <div class="pantallas_grafo">
+                <div class="pantalla">
+                    <svg class="lienzo" id="canvas-2"></svg>
+                </div>
             </div>
-        </section>
+            <div class="info_pantalla">
+                <span class="propiedades">Propiedades</span>
+                <h4>Vertices: <span class="cant_vertices"></span></h4>
+                <h4>Aristas:<span class="cant_aristas"></span></h4>
+                <div class="regiones">
+                    <h4>Regiones: <span class="region_p1"></span></h4>
+                </div>
+                <span class="tipo"></span>
+                <span class="conexo"></span>
+                <div class="plan">
+                    <span class="plano"></span>
+                </div>
+                <div class="comp">
+                    <span class="completo"></span>
+                </div>
+                <span class="ncroma"></span>
+                <span class="regular"></span>
+                <div class="euleriano">
+                    <span class="circuito-eu"></span>
+                    <span class="camino-eu"></span>
+                    <span class="grafo-eu"></span>
+                </div>
+                <span class="hamilton"></span>
+                <span class="hamilton"></span>
+            </div>
+            <div class="info_pantalla">
+                <span class="propiedades">Propiedades</span>
+                <h4>Vertices: <span class="cant_vertices"></span></h4>
+                <h4>Aristas:<span class="cant_aristas"></span></h4>
+                <div class="regiones">
+                    <h4>Regiones: <span class="region_p1"></span></h4>
+                </div>
+                <span class="tipo"></span>
+                <span class="conexo"></span>
+                <div class="plan">
+                    <span class="plano"></span>
+                </div>
+                <div class="comp">
+                    <span class="completo"></span>
+                </div>
+                <span class="ncroma"></span>
+                <span class="regular"></span>
+                <div class="euleriano">
+                    <span class="circuito-eu"></span>
+                    <span class="camino-eu"></span>
+                    <span class="grafo-eu"></span>
+                </div>
+                <span class="hamilton"></span>
+                <span class="hamilton"></span>
+            </div>
 
+        </section>
     </div>
-<<<<<<< Updated upstream
-=======
     <script src="https://d3js.org/d3.v5.min.js"></script>
->>>>>>> Stashed changes
+    <script src="js/grafos.js"></script>
 </body>
 
 </html>
